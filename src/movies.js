@@ -2,6 +2,8 @@
 // _Bonus_: It seems some of the directors had directed multiple movies so they will pop up multiple times in the array of directors.
 // How could you "clean" a bit this array and make it unified (without duplicates)?
 
+const movies = require('./data');
+
 function getAllDirectors(movies) {
   let mappedArray = [];
   let filteredArray = [];
@@ -52,21 +54,66 @@ function scoresAverage(movies) {
 }
 
 // Iteration 4: Drama movies - Get the average of Drama Movies
-function dramaMoviesScore() {}
+function dramaMoviesScore(movies) {
+  let filteredArray = [];
+  let sumDramaScore = 0;
+
+  filteredArray = movies.filter((data1) => data1.genre.includes('Drama'));
+
+  if (filteredArray.length == 0) {
+    return 0;
+  }
+
+  filteredArray.map((data1) => {
+    sumDramaScore += data1.score;
+  });
+
+  let scoreAvgDrama = sumDramaScore / filteredArray.length;
+  return Number(scoreAvgDrama.toFixed(2));
+}
 
 // Iteration 5: Ordering by year - Order by year, ascending (in growing order)
 function orderByYear(movies) {
-  let yearArr = [];
-  movies.sort((a, b) => {
+  let yearOrder = [];
+  if (movies.length == 0) {
+    return yearOrder;
+  }
+
+  yearOrder = movies.sort((a, b) => {
+    if (a.year == b.year) {
+      return a.title.toLowerCase().localeCompare(b.title.toLowerCase());
+    }
     return a.year - b.year;
   });
+
+  return yearOrder;
 }
 
 // Iteration 6: Alphabetic Order - Order by title and print the first 20 titles
-function orderAlphabetically() {}
+function orderAlphabetically(movies) {
+  let moviesOrdered = [];
+
+  movies.map((data1) => {
+    moviesOrdered.push(data1.title);
+  });
+
+  moviesOrdered.sort((a, b) => {
+    return a.toLowerCase().localeCompare(b.toLowerCase());
+  });
+
+  let top20 = moviesOrdered.splice(0, 20);
+
+  return top20;
+}
 
 // BONUS - Iteration 7: Time Format - Turn duration of the movies from hours to minutes
-function turnHoursToMinutes() {}
+function turnHoursToMinutes() {
+  let newArrminutes = [];
+
+  /*  movies.map((data1) => {
+    newArrminutes.push(data1);
+  }); */
+}
 
 // BONUS - Iteration 8: Best yearly score average - Best yearly score average
 function bestYearAvg() {}
