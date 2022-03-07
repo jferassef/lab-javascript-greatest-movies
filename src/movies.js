@@ -107,16 +107,61 @@ function orderAlphabetically(movies) {
 }
 
 // BONUS - Iteration 7: Time Format - Turn duration of the movies from hours to minutes
-function turnHoursToMinutes() {
+function turnHoursToMinutes(movies) {
   let newArrminutes = [];
+  if (movies.length == 0) {
+    return null;
+  }
+  newArrminutes = JSON.parse(JSON.stringify(movies));
+  newArrminutes.map((data1) => {
+    let duration = String(data1.duration);
+    let timeArray = duration.split(' ');
+    let hours = 0;
+    let minutes = 0;
+    if (timeArray.length == 1) {
+      if (timeArray[0].includes('h')) {
+        hours = Number(timeArray[0].substring(0, timeArray[0].length - 1)) * 60;
+      } else {
+        minutes = Number(timeArray[0].substring(0, timeArray[0].length - 3));
+      }
+    } else {
+      hours = Number(timeArray[0].substring(0, timeArray[0].length - 1)) * 60;
+      minutes = Number(timeArray[1].substring(0, timeArray[1].length - 3));
+    }
+    data1.duration = hours + minutes;
+  });
 
-  /*  movies.map((data1) => {
-    newArrminutes.push(data1);
-  }); */
+  return newArrminutes;
 }
 
 // BONUS - Iteration 8: Best yearly score average - Best yearly score average
-function bestYearAvg() {}
+function bestYearAvg(movies) {
+  if (movies.length == 0) {
+    return null;
+  }
+
+  yearsScore = {};
+  movies.map((data) => {
+    if (!yearsScore.hasOwnProperty(data.year)) {
+      yearsScore[data.year] = [];
+    }
+    yearsScore[data.year].push(data.score);
+  });
+  let year = '';
+  let maxAvg = 0;
+  for (var key in yearsScore) {
+    let sum = 0;
+    yearsScore[key].map((data) => {
+      sum += data;
+    });
+    let currentAvg = sum / yearsScore[key].length;
+    if (maxAvg < currentAvg) {
+      maxAvg = currentAvg;
+      year = key;
+    }
+  }
+  return `The best year was ${year} with an average score of ${maxAvg}`;
+}
 
 // The following is required to make unit tests work.
 /* Environment setup. Do not modify the below code. */
